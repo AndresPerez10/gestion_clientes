@@ -24,27 +24,15 @@ class ClientesController extends Controller
             $clientes = Cliente::all();            
             if($clientes->isEmpty()) {
                 Log::error('ocurrió un error: No se encuentran clientes ');
-            return response()->json([
-                'status' => false,
-                'http code' => '422',
-                'error' => 'ocurrió un error: No se encuentran clientes'
-            ]);
+            return $this->devolverRespuestasError( false, '422', 'ocurrió un error: No se encuentran clientes');
             }
             
         }catch(\Exception $e) {
             Log::error('ocurrió un error: Fallo en el servidor');
-            return response()->json([
-                'status' => false,
-                'http code' => '500',
-                'error' => 'ocurrió un error: ' . $e
-            ]);
+            return $this->devolverRespuestasError(false, 500, $e);
         } 
 
-    return response()->json([
-        'status' => true,
-        'http code' => '200',
-        'Listado de clientes' => $clientes
-    ]);
+    return $this->devolverRespuestasError(true, '200', 'Listado de clientes: ' . $clientes);
         
     } 
 
@@ -74,11 +62,7 @@ class ClientesController extends Controller
         $messages);    
         
         if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'http code' => '422',
-                'error' => $validator->errors()
-            ]);
+            return $this->devolverRespuestasError( false, '422', $validator->errors());
         }
         
         try {            
@@ -86,26 +70,14 @@ class ClientesController extends Controller
             $result = Cliente::create($validator->validated());            
         }catch(QueryException $e) {
             Log::error('ocurrió un error: El cliente ya existe ');
-            return response()->json([
-                'status' => false,
-                'http code' => '409',
-                'error' => 'ocurrió un error: El cliente ya existe'
-            ]);
+            return $this->devolverRespuestasError( false, '409', 'ocurrió un error: El cliente ya existe');
         }catch(\Exception $e) {
             Log::error('ocurrió un error: Fallo en el servidor');
-            return response()->json([
-                'status' => false,
-                'http code' => '500',
-                'error' => 'ocurrió un error: Fallo en el servidor'
-            ]);
+            return $this->devolverRespuestasError( false, '500', 'ocurrió un error: Fallo en el servidor');
         } 
         // dd(Hash::check('hola2344', $passHashed));
        
-        return response()->json([
-            'status' => true,
-            'http code' => '200',
-            'mensaje' => 'Cliente con Id: ' . $result->id . ' insertado con éxito'
-        ]);
+        return $this->devolverRespuestasError( true, '200', 'Cliente con Id: ' . $result->id . ' insertado con éxito');
 
     }
 
@@ -124,37 +96,21 @@ class ClientesController extends Controller
             ['dni.regex' => 'El formato de dni no es correcto']);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'http code' => '422',
-                'error' => $validator->errors()
-            ]);
+            return $this->devolverRespuestasError( false, '422', $validator->errors());
         }
 
         try {
             $cliente = Cliente::where('dni', $validatedData['dni'])->first();
                 if(is_null($cliente)) {
                     Log::error('ocurrió un error: No se encuentra el dni ');
-                    return response()->json([
-                        'status' => true,
-                        'http code' => '404',
-                        'mensaje' => 'Dni inexistente.'
-                    ]);
+                    return response()->json( true, '404', 'Dni inexistente.');
                 }
         } catch(\Exception $e) {
             Log::error('ocurrió un error: Fallo en el servidor');
-            return response()->json([
-                'status' => false,
-                'http code' => '500',
-                'error' => 'ocurrió un error: ' . $e
-            ]);
+            return $this->devolverRespuestasError( false, '500', $e);
         } 
         
-        return response()->json([
-            'status' => true,
-            'http code' => '200',
-            'Listado de clientes' => $cliente
-        ]);
+        return $this->devolverRespuestasError( true, '200', $cliente);
     }
 
     //////////////////////////////////
@@ -169,39 +125,41 @@ class ClientesController extends Controller
             ['dni.regex' => 'El formato de dni no es correcto']);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'http code' => '422',
-                'error' => $validator->errors()
-            ]);
+            return $this->devolverRespuestasError(false, 422,  $validator->errors());
         }
 
         try {
             $cliente = Cliente::where('dni', $validatedData['dni'])->first();
-                if(is_null($cliente)) {
-                    Log::error('ocurrió un error: No se encuentra el dni ');
-                    return response()->json([
-                        'status' => true,
-                        'http code' => '404',
-                        'mensaje' => 'Dni inexistente.'
-                    ]);
-                }
+            if(is_null($cliente)) {
+                Log::error('ocurrió un error: No se encuentra el dni ');
+                return $this->devolverRespuestasError(false, 404, 'Dni inexistente.');
+            }
+            $cliente->delete();
         } catch(\Exception $e) {
             Log::error('ocurrió un error: Fallo en el servidor');
-            return response()->json([
-                'status' => false,
-                'http code' => '500',
-                'error' => 'ocurrió un error: ' . $e
-            ]);
+            return $this->devolverRespuestasError( false,'500','ocurrió un error: ' . $e
+            );
         } 
-        
-        $cliente->delete();
-
-        return response()->json([
-            'status' => true,
-            'http code' => '200',
-            'mensaje: ' => 'cliente eliminado'
-        ]);
+    
+        return $this->devolverRespuestasError(true, 200, 'cliente eliminado');
     }
 
+    // private function devolverRespuestasError($data) {       
+    //     // $respuesta =  $data['status'] ? 'mensaje' : 'error';
+    //     // if(!$data['status']) $respuesta = 'error';
+
+    //     return response()->json([
+    //         'status' => $data['status'],
+    //         'httpCode' => $data['httpCode'],
+    //         $data['status'] ? 'mensaje' : 'error' => $data['respuesta']
+    //     ]);
+    // }
+
+    private function devolverRespuestasError($status, $httpCode, $message) {
+        return response()->json([
+            'status' => $status,
+            'httpCode' => $httpCode,
+            $status ? 'mensaje' : 'error' => $message
+        ]);
+    }
 }
