@@ -13,4 +13,11 @@ class Cliente extends Model
     protected $table = 'clientes';    
     protected $fillable = ['dni', 'nombre', 'apellido1', 'apellido2', 'direccion', 'email', 'fechaNacimiento', 'contrasenna'];
     protected $hidden = ['id', 'contrasenna', 'created_at', 'updated_at'];
+
+
+
+    public function contratos(): HasMany
+    {
+        return $this->hasMany(Contrato::class);
+    }
 }

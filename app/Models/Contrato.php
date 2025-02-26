@@ -15,4 +15,10 @@ class Contrato extends Model
     public $incrementing = false;
     protected $fillable = ['idCliente', 'descripcion'];
     protected $hidden = ['created_at', 'updated_at'];
+
+
+    public function clientes(): BelongsTo
+    {
+        return $this->belongsTo(Cliente::class);
+    }
 }
