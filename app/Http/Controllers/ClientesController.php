@@ -144,6 +144,54 @@ class ClientesController extends Controller
         return $this->devolverRespuestasError(true, 200, 'cliente eliminado');
     }
 
+
+    public function actualizarCliente(Request $datos) {
+        
+            $validatedData = ['dni' => $datos->route('dni')];
+            
+            $validator = Validator::make($datos->all(), [
+                'dni' => ['required', 'regex:/^(\d{8})([A-Z])$/'],
+                ['dni.regex' => 'El formato de dni no es correcto'],
+                'nombre' => ['nullable'],
+                'apellido1' => ['nullable'],
+                'apellido2' => ['nullable'],
+                'direccion' => ['nullable'],
+                'email' => ['sometimes', 'required', 'email'],
+                'fechaNacimiento' => ['date', 'nullable'],
+                'contrasenna' => ['required', Password::min(13)->mixedCase()]
+            ]);
+    
+            if ($validator->fails()) {
+                return $this->devolverRespuestasError(false, 422,  $validator->errors());
+            }
+    
+            try {
+                $cliente = Cliente::where('dni', $validatedData['dni'])->first();
+
+                if(is_null($cliente)) {
+                    Log::error('ocurrió un error: No se encuentra el dni ');
+                    return $this->devolverRespuestasError(false, 404, 'Cliente no encontrado.');
+                }
+                $cliente->update([
+                    //'dni' => $datos->dni, 
+                    'nombre' => $datos->nombre,
+                    'apellido1' => $datos->apellido1,
+                    'apellido2' => $datos->apellido2,
+                    'direccion'=> $datos->direccion,
+                    'email' => $datos->email,
+                    'fechaNacimiento' => $datos->fechaNacimiento,
+                    'contrasenna' => Hash::make($datos->contrasenna)
+                ]);
+
+            } catch(\Exception $e) {
+                Log::error('ocurrió un error: Fallo en el servidor');
+                return $this->devolverRespuestasError( false,'500','ocurrió un error: ' . $e);
+            } 
+        
+            return $this->devolverRespuestasError(true, 200, 'Cliente actualizado correctamente: '.$cliente);
+
+        }
+
     // private function devolverRespuestasError($data) {       
     //     // $respuesta =  $data['status'] ? 'mensaje' : 'error';
     //     // if(!$data['status']) $respuesta = 'error';
@@ -162,4 +210,7 @@ class ClientesController extends Controller
             $status ? 'mensaje' : 'error' => $message
         ]);
     }
+
+
+
 }
