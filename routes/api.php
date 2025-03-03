@@ -17,3 +17,4 @@ Route::get('/contratos/obtener', [ContratosController::class, 'obtenerContratos'
 Route::get('/contratos/obtener/{dni}', [ContratosController::class, 'obtenerContratosPorCliente']);
 Route::post('/contratos/crear', [ContratosController::class, 'crearContrato']);
 Route::delete('/contratos/eliminar', [ContratosController::class, 'eliminarContratoPorDni']);
+Route::put('/contratos/actualizar', [ContratosController::class, 'actualizarContratos']);
