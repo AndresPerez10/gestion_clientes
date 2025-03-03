@@ -30,6 +30,7 @@ class ContratosController extends Controller
     } 
 
     
+    
 
     private function devolverRespuestas($status, $httpCode, $message) {
         return response()->json([
