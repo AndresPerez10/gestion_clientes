@@ -25,7 +25,7 @@ class ContratosController extends Controller
             return $this->devolverRespuestas(false, 500, $e);
         } 
 
-    return $this->devolverRespuestas(true, '200', $contratos);
+        return $this->devolverRespuestas(true, '200', $contratos);
         
     } 
 

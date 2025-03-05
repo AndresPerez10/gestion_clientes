@@ -17,23 +17,34 @@ class ClientesController extends Controller
      * Endpoint que obtiene el listado de clientes de la base de datos.
      * Y devuelver error si no encuentra clientes
      */
-    public function obtenerClientes() {
-        
-        
+    public function obtenerClientes() {        
         try {            
             $clientes = Cliente::all();            
             if($clientes->isEmpty()) {
                 Log::error('ocurrió un error: No se encuentran clientes ');
-            return $this->devolverRespuestasError( false, '422', 'ocurrió un error: No se encuentran clientes');
+                return $this->devolverRespuestasError( false, '422', 'ocurrió un error: No se encuentran clientes');
             }
             
+            $clienteResource = [];        
+            foreach($clientes as $cliente) {
+                $clienteResource[] = [
+                    'id' => $cliente->id,
+                    'dni' => $cliente->dni,
+                    'nombre' => $cliente->nombre,
+                    'apellido1' => $cliente->apellido1,
+                    'apellido2' => $cliente->apellido2,
+                    'direccion' => $cliente->direccion,
+                    'email' => $cliente->email,
+                    'fechaNacimiento' => $cliente->fechaNacimiento
+                ];
+            }
+            
+            // dd($clienteResource);
+            return $this->devolverRespuestasError(true, '200', $clienteResource);
         }catch(\Exception $e) {
             Log::error('ocurrió un error: Fallo en el servidor');
             return $this->devolverRespuestasError(false, 500, $e);
         } 
-
-    return $this->devolverRespuestasError(true, '200', 'Listado de clientes: ' . $clientes);
-        
     } 
 
     /**

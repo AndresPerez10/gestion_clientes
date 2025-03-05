@@ -1,0 +1,43 @@
+.background {
+    background-image: url('https://static.vecteezy.com/system/resources/previews/004/595/007/non_2x/red-and-white-background-design-flat-and-minimalist-background-design-illustration-free-vector.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh; 
+    margin: 0;
+}
+
+.table {
+    width: 80%;
+    margin: auto;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.logo {
+    width: 110px; /* Tamaño adaptable */
+    height: auto; /* Mantiene la proporción original */
+    max-width: 100%; /* Evita que se salga del contenedor */
+}
+
+.lupa {
+    width: 50px;
+    height: auto;
+    max-width: 80%;
+}
+
+.table-container table {
+    font-size: 16px; /* Reduce el tamaño del texto */
+}
+
+
+
+.table-container {
+    max-width: 650px; /* Ajusta el ancho total */
+    padding-left: 9%;
+    float: left;
+}
+
+
+
+
+
