@@ -7,10 +7,10 @@ body {
 }
 
 .table {
-    width: 80%;
+    width: 100%;
     margin: auto;
-    border-radius: 10px;
     overflow: hidden;
+    border-radius: 7%;
 }
 
 .logo {
@@ -33,11 +33,26 @@ body {
 
 .table-container {
     max-width: 650px; /* Ajusta el ancho total */
-    padding-left: 9%;
+    padding-left: 0%;
     float: left;
 }
 
+.borde {
+    /* border: 2px solid rgba(220, 53, 69, 0.7) !important; */
+    border-radius: 5px; /* Bordes redondeados (opcional) */
+}
 
+#spinner {
+    position: fixed; 
+    top: 50%;         
+    left: 50%;        
+}
 
-
+.editar_eliminar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 5px;
+}
 
