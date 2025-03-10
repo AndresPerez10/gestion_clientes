@@ -15,6 +15,13 @@ $(document).ready(function() {
     $(document).on('click', '#btn-eliminar', function(event) {
          deleteCliente($(this)); 
     });
+
+    $(document).on('click', '#btn-editar', function(event) {
+        event.preventDefault(); // Previene cualquier acción predeterminada
+        let url = $(this).data('url');  // Obtiene la URL desde el atributo `data-url`
+        window.location.href = url;  // Redirige a la URL obtenida
+    });
+    
 });
 
 async function insertarClientes() {    
@@ -90,7 +97,7 @@ async function obtenerClientes() {
                             <button id="btn-eliminar" class="btn btn-danger" data-id="${cliente.dni}">
                                 <i class="bi bi-trash"></i>
                             </button>                                        
-                            <button class="btn btn-primary" data-id="${cliente.id}">
+                            <button data-url="{{ route('insertarClientes') }}" id="btn-editar" class="btn btn-primary" data-id="${cliente.id}">
                                 <i class="bi bi-pencil-fill"></i>
                             </button>
                         </div>
