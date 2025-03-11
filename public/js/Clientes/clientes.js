@@ -1,5 +1,5 @@
 import { ClientesService } from './clientesService.js';
-import { formatearFecha } from './formatearFecha.js';
+import { formatearFecha } from '../formatearFecha.js';
 
 $(document).ready(function() {
     if(window.location.pathname == '/clientes/mostrar') obtenerClientes();
@@ -129,4 +129,5 @@ async function deleteCliente(button) {
         }
     }
 }
+
 

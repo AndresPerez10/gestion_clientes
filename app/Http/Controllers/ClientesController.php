@@ -222,6 +222,27 @@ class ClientesController extends Controller
         ]);
     }
 
-
+    public function obtenerDniClientes() {        
+        try {            
+            $clientes = Cliente::all();            
+            if($clientes->isEmpty()) {
+                Log::error('ocurrió un error: No se encuentran clientes ');
+                return $this->devolverRespuestasError( false, '422', 'ocurrió un error: No se encuentran clientes');
+            }
+            
+            $clienteResource = [];        
+            foreach($clientes as $cliente) {
+                $clienteResource[] = [
+                    'dni' => $cliente->dni
+                ];
+            }
+            
+            // dd($clienteResource);
+            return $this->devolverRespuestasError(true, '200', $clienteResource);
+        }catch(\Exception $e) {
+            Log::error('ocurrió un error: Fallo en el servidor');
+            return $this->devolverRespuestasError(false, 500, $e);
+        } 
+    } 
 
 }

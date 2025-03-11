@@ -28,7 +28,8 @@
           <ul class="dropdown-menu">
             <!-- <li><hr class="dropdown-divider"></li> -->
             <li><a class="dropdown-item" href="{{ route('mostrarClientes') }}" id="ver-clientes-dropdown">Ver Clientes</a></li>
-            <li><a class="dropdown-item" href="{{ route('insertarClientes') }}" id="ver-clientes-dropdown">Insertar Clientes</a></li>
+            <li><a class="dropdown-item" href="{{ route('insertarClientes') }}" id="insertar-clientes-dropdown">Insertar Clientes</a></li>
+            <li><a class="dropdown-item" href="{{ route('mostrarContratos') }}" id="ver-contratos-dropdown">Ver Contratos</a></li>
           </ul>
         </li>
         <li class="nav-item">

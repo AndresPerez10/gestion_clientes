@@ -28,5 +28,5 @@
     </table>
 </div>
 
-    <script type="module" src="{{ asset('/js/clientes.js') }}"></script>
+    <script type="module" src="{{ asset('/js/Clientes/clientes.js') }}"></script>
 @endsection
