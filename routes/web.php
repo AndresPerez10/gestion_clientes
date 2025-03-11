@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,3 +18,14 @@ Route::get('/clientes/insertar', function () {
 Route::delete('/clientes/eliminar/{dni}', function () {
     return view('deleteCliente');
 })->name('deleteCliente');
+
+// Route::put('/clientes/actualizar', function () {
+//     return view('insertarClientes');
+// })->name('insertarClientes');
+
+Route::get('/clientes/actualizar', function (Request $request) {
+    $data = $request->query('data'); // Obtener el parámetro 'data'
+    $cliente = $data ? json_decode(base64_decode($data), true) : null;
+
+    return view('insertarClientes', compact('cliente'));
+})->name('insertarClientes');

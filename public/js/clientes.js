@@ -17,9 +17,15 @@ $(document).ready(function() {
     });
 
     $(document).on('click', '#btn-editar', function(event) {
-        event.preventDefault(); // Previene cualquier acción predeterminada
-        let url = $(this).data('url');  // Obtiene la URL desde el atributo `data-url`
-        window.location.href = url;  // Redirige a la URL obtenida
+        // event.preventDefault(); // Previene cualquier acción predeterminada
+        var cliente = $(this).data('cliente');
+        var clienteBase64 = btoa(JSON.stringify(cliente));
+        console.log(clienteBase64);
+        var cliente = JSON.parse(decodeURIComponent(atob(clienteBase64)));
+        console.log(cliente);
+        
+
+        window.location.href = "/clientes/actualizar?data="+clienteBase64;  // Redirige a la URL obtenida
     });
     
 });
@@ -38,24 +44,24 @@ async function insertarClientes() {
     };
 
     // Example starter JavaScript for disabling form submissions if there are invalid fields
-(() => {
-    'use strict'
-  
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    const forms = document.querySelectorAll('.needs-validation')
-  
-    // Loop over them and prevent submission
-    Array.from(forms).forEach(form => {
-      form.addEventListener('submit', event => {
-        if (!form.checkValidity()) {
-          event.preventDefault()
-          event.stopPropagation()
-        }
-  
-        form.classList.add('was-validated')
-      }, false)
-    })
-  })()
+    (() => {
+        'use strict'
+        
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+        
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+          form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            }
+        
+            form.classList.add('was-validated')
+          }, false)
+        })
+    })()
 
     try {
         let cliente = await ClientesService.addCliente(clienteData);
@@ -97,7 +103,9 @@ async function obtenerClientes() {
                             <button id="btn-eliminar" class="btn btn-danger" data-id="${cliente.dni}">
                                 <i class="bi bi-trash"></i>
                             </button>                                        
-                            <button data-url="{{ route('insertarClientes') }}" id="btn-editar" class="btn btn-primary" data-id="${cliente.id}">
+                            <button id="btn-editar" class="btn btn-primary" 
+                                data-id="${cliente.id}"
+                                data-cliente='${JSON.stringify(cliente)}'>
                                 <i class="bi bi-pencil-fill"></i>
                             </button>
                         </div>
