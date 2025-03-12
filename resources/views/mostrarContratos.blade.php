@@ -6,17 +6,16 @@
     <h1>Mostrar listado de contratos</h1>
     
     <div>
-        <select class="form-select" id="dni-dropdown" aria-label="Seleccionar DNI">
-            <option selected disabled>Seleccione un DNI</option>
-        </select>
-    </div>
+    <select class="form-select" id="dni-dropdown" aria-label="Seleccionar DNI">
+        <option selected disabled>Seleccione un DNI</option> <!-- Opción predeterminada -->
+    </select>
+</div>
 
     <div class="table-container mt-4" id="tablaContratos">
         <table class="table table-striped-columns text-center">
             <thead>
                 <tr>
                     <th>id</th>
-                    <th>idCliente</th>
                     <th>Descripción</th>               
                 </tr>
             </thead>

@@ -7,6 +7,7 @@ use App\Models\Cliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use DB;
 
 class ContratosController extends Controller
 {
@@ -43,10 +44,18 @@ class ContratosController extends Controller
 
         try {
             $cliente = Cliente::where('dni', $validatedData['dni'])->first();
+
+            // $clientesContratos = DB::select('
+            //     SELECT co.descripcion, co.id
+            //     FROM contratos co
+            //     JOIN clientes c ON c.id = co.idCliente
+            //     WHERE c.dni = :dni', ['dni' => $validatedData["dni"]]);
+
             if(is_null($cliente)) {
                 Log::error('ocurrió un error: No se encuentra el dni ');
                 return $this->devolverRespuestas( true, '404', 'Dni inexistente.');
             }
+
             $contratos = $cliente->contratos;
             // $contratos[] = $cliente->contratosCustom($cliente->dni);
             return $this->devolverRespuestas( true, '200', $contratos);
