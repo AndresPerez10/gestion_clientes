@@ -22,7 +22,6 @@ Route::delete('/clientes/eliminar/{dni}', function () {
     return view('deleteCliente');
 })->name('deleteCliente');
 
-<<<<<<< HEAD
 // Route::put('/clientes/actualizar', function () {
 //     return view('insertarClientes');
 // })->name('insertarClientes');
@@ -33,11 +32,3 @@ Route::get('/clientes/actualizar', function (Request $request) {
 
     return view('insertarClientes', compact('cliente'));
 })->name('insertarClientes');
-=======
-
-// Contratos
-
-Route::get('/contratos/mostrar', function () {
-    return view('mostrarContratos');
-})->name('mostrarContratos');
->>>>>>> vistas/mostrarContratosPorClientes
