@@ -79,8 +79,8 @@ class ClientesController extends Controller
         try {            
             $validator->validated()['contrasenna'] = Hash::make($datos->contrasenna);
             $result = Cliente::create($validator->validated());            
-        }catch(QueryException $e) {
-            Log::error('ocurrió un error: El cliente ya existe ');
+        }catch(QueryException $e) {            
+            Log::error('ocurrió un error: El cliente ya existe ');            
             return $this->devolverRespuestasError( false, '409', 'ocurrió un error: El cliente ya existe');
         }catch(\Exception $e) {
             Log::error('ocurrió un error: Fallo en el servidor');
@@ -222,6 +222,27 @@ class ClientesController extends Controller
         ]);
     }
 
-
+    public function obtenerDniClientes() {        
+        try {            
+            $clientes = Cliente::all();            
+            if($clientes->isEmpty()) {
+                Log::error('ocurrió un error: No se encuentran clientes ');
+                return $this->devolverRespuestasError( false, '422', 'ocurrió un error: No se encuentran clientes');
+            }
+            
+            $clienteResource = [];        
+            foreach($clientes as $cliente) {
+                $clienteResource[] = [
+                    'dni' => $cliente->dni
+                ];
+            }
+            
+            // dd($clienteResource);
+            return $this->devolverRespuestasError(true, '200', $clienteResource);
+        }catch(\Exception $e) {
+            Log::error('ocurrió un error: Fallo en el servidor');
+            return $this->devolverRespuestasError(false, 500, $e);
+        } 
+    } 
 
 }

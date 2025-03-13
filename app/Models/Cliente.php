@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable; 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Cliente extends Model
 {
@@ -18,6 +19,6 @@ class Cliente extends Model
 
     public function contratos(): HasMany
     {
-        return $this->hasMany(Contrato::class);
+        return $this->hasMany(Contrato::class, 'idCliente');
     }
 }

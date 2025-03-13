@@ -14,6 +14,21 @@ export class ClientesService {
         });
     }
 
+    static async dniClientes() {    
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                method: "GET",
+                url: '/api/clientes/obtenerDniClientes',            
+                success: function(response) {
+                    resolve(response);  // Resolvemos la promesa con la respuesta exitosa
+                },
+                error: function(error) {
+                    reject([]);  // Rechazamos la promesa con un array vacío en caso de error
+                }
+            });
+        });
+    }
+
     static async addCliente(data) {          
         return new Promise((resolve, reject) => {
             $.ajax({
