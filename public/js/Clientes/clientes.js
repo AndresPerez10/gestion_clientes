@@ -53,7 +53,6 @@ async function insertarClientes() {
         email: $("#email").val().trim()
     };
 
-<<<<<<< HEAD:public/js/clientes.js
     // Example starter JavaScript for disabling form submissions if there are invalid fields
     (() => {
         'use strict'
@@ -73,9 +72,9 @@ async function insertarClientes() {
           }, false)
         })
     })()
-=======
+
     console.log("Datos a enviar:", clienteData);
->>>>>>> vistas/mostrarContratosPorClientes:public/js/Clientes/clientes.js
+
 
     try {
         let cliente = await ClientesService.addCliente(clienteData);

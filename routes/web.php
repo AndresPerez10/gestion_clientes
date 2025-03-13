@@ -32,3 +32,11 @@ Route::get('/clientes/actualizar', function (Request $request) {
 
     return view('insertarClientes', compact('cliente'));
 })->name('insertarClientes');
+
+
+
+// Contratos
+
+Route::get('/contratos/mostrar', function () {
+    return view('mostrarContratos');
+})->name('mostrarContratos');
