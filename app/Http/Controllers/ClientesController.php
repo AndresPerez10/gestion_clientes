@@ -79,8 +79,8 @@ class ClientesController extends Controller
         try {            
             $validator->validated()['contrasenna'] = Hash::make($datos->contrasenna);
             $result = Cliente::create($validator->validated());            
-        }catch(QueryException $e) {
-            Log::error('ocurrió un error: El cliente ya existe ');
+        }catch(QueryException $e) {            
+            Log::error('ocurrió un error: El cliente ya existe ');            
             return $this->devolverRespuestasError( false, '409', 'ocurrió un error: El cliente ya existe');
         }catch(\Exception $e) {
             Log::error('ocurrió un error: Fallo en el servidor');

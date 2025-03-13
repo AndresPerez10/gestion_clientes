@@ -56,3 +56,12 @@ body {
     padding: 5px;
 }
 
+.card-img {
+    width: 110px; /* Tamaño adaptable */
+    height: auto; /* Mantiene la proporción original */
+    max-width: 100%; 
+    align-items: center;
+    justify-content: center;
+    padding-top: 2%;
+}
+

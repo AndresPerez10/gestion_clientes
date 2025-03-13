@@ -9,7 +9,8 @@ $(document).ready(function() {
     });
     
     $("#formulario").on("submit", function(event) {
-        insertarClientes();
+        event.preventDefault();  // Evita que el formulario se envíe y recargue la página
+        insertarClientes(event);  // Llama a la función insertarClientes y pasa el evento
     });
 
     $(document).on('click', '#btn-eliminar', function(event) {
@@ -17,7 +18,16 @@ $(document).ready(function() {
     });
 });
 
-async function insertarClientes() {    
+async function insertarClientes() {  
+      
+    let form = document.querySelector("#formulario");
+
+    // Verificar si el formulario es válido
+    if (!form.checkValidity()) {
+        form.classList.add("was-validated");
+        return; // Si no es válido, detenemos la ejecución
+    }
+
     // Obtener los datos del formulario
      let clienteData = {
         dni: $("#dni").val().trim(),
@@ -30,28 +40,11 @@ async function insertarClientes() {
         email: $("#email").val().trim()
     };
 
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-(() => {
-    'use strict'
-  
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    const forms = document.querySelectorAll('.needs-validation')
-  
-    // Loop over them and prevent submission
-    Array.from(forms).forEach(form => {
-      form.addEventListener('submit', event => {
-        if (!form.checkValidity()) {
-          event.preventDefault()
-          event.stopPropagation()
-        }
-  
-        form.classList.add('was-validated')
-      }, false)
-    })
-  })()
+    console.log("Datos a enviar:", clienteData);
 
     try {
         let cliente = await ClientesService.addCliente(clienteData);
+        console.log("Cliente insertado:", cliente);
         $("#formulario")[0].reset(); // Limpiar formulario tras insertar        
     } catch (error) {        
         console.log(error);        
