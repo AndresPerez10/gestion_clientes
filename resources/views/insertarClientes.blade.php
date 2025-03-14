@@ -4,19 +4,6 @@
 
 @section('content')
 <h1>Formulario para insertar clientes</h1>
-
-<span>{{ $cliente['id'] }}</span>
-
-@if(isset($cliente))
-    <h1>Editar Cliente</h1>
-    <p>Nombre: {{ $cliente['nombre'] }}</p>
-    <p>Email: {{ $cliente['email'] }}</p>
-@else
-    <h1>Insertar Nuevo Cliente</h1>
-@endif
-
-
-
 <form class="row g-3 needs-validation" id="formulario" novalidate>
     <div class="col-md-4">
         <label for="dni" class="form-label">DNI</label>

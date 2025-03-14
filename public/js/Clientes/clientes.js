@@ -23,10 +23,29 @@ $(document).ready(function() {
         var clienteBase64 = btoa(JSON.stringify(cliente));
         console.log(clienteBase64);
         var cliente = JSON.parse(decodeURIComponent(atob(clienteBase64)));
-        console.log(cliente);
         
+        console.log('Datos cliente: ',cliente);
 
         window.location.href = "/clientes/actualizar?data="+clienteBase64;  // Redirige a la URL obtenida
+
+        // // Función para obtener parámetros de la URL
+        // function getQueryParam(param) {
+        //     var urlParams = new URLSearchParams(window.location.search);
+        //     return urlParams.get(param);
+        // }
+
+        // // Obtener el parámetro 'data' de la URL
+        // var dataBase64 = getQueryParam("data");
+
+        // if (dataBase64) {
+        //     // Decodificar el objeto desde Base64 y luego convertirlo a JSON
+        //     var cliente = JSON.parse(decodeURIComponent(atob(dataBase64)));
+
+        //     // Rellenar los campos del formulario con los datos del cliente
+        //     $("#titulo").text("Editar Cliente");
+        //     $("#clienteId").val(cliente.id);
+        //     $("#nombre").val(cliente.nombre);
+        // }
     });
     
 });

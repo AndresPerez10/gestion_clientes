@@ -55,8 +55,14 @@ class ContratosController extends Controller
                 Log::error('ocurrió un error: No se encuentra el dni ');
                 return $this->devolverRespuestas( true, '404', 'Dni inexistente.');
             }
-
+            
             $contratos = $cliente->contratos;
+            
+            if ($contratos->isEmpty()) {
+            Log::info("El cliente con DNI {$validatedData['dni']} no tiene contratos.");
+                return $this->devolverRespuestas(true, '200', 'Este DNI no tiene contratos asociados.');
+            }
+
             // $contratos[] = $cliente->contratosCustom($cliente->dni);
             return $this->devolverRespuestas( true, '200', $contratos);
         } catch(\Exception $e) {

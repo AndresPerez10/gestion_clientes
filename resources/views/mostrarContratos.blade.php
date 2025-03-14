@@ -15,9 +15,12 @@
         <table class="table table-striped-columns text-center">
             <thead>
                 <tr>
-                    <th>id</th>
-                    <th>Descripción</th>               
-                </tr>
+            <th>ID</th>
+            <th>Descripción</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
             </thead>
             <tbody id="contratos-table">
                 <!-- Los datos se llenarán aquí mediante JS -->

@@ -6,15 +6,19 @@ $(document).ready(function() {
     // Cargar los contratos cuando se muestra la página de contratos
     if(window.location.pathname == '/contratos/mostrar') mostrarContratos();
     
-        cargarDNIs(); // Llama a la función para cargar los DNIs
+    cargarDNIs(); // Llama a la función para cargar los DNIs
 
-        $('#dni-dropdown').on('change', function () {
-            const selectedDNI = $(this).val(); // Obtener el DNI seleccionado
-            if (selectedDNI) {
-                // Llamar a la función para mostrar los contratos del DNI seleccionado
-                mostrarContratos(selectedDNI);
-            }
-        });
+    $('#dni-dropdown').on('change', function () {
+        const selectedDNI = $(this).val(); // Obtener el DNI seleccionado
+        if (selectedDNI) {
+            // Llamar a la función para mostrar los contratos del DNI seleccionado
+            mostrarContratos(selectedDNI);
+        }
+    });
+
+    $(document).on('click', '#btn-eliminarContrato', function(event) {
+        deleteContratos($(this)); 
+   });
 });
 
 async function mostrarContratos(dni) {
@@ -36,13 +40,54 @@ async function mostrarContratos(dni) {
                     <tr>
                         <td>${contrato.id}</td>
                         <td>${contrato.descripcion}</td>
-                    </tr> 
-                `);
+                        <td>
+                            <div class="acciones">
+                                 <button id="btn-eliminarContrato" class="btn btn-danger" data-id="${contrato.id}">
+                                <i class="bi bi-trash"></i>
+                                </button>
+                                <button id="btn-editar" class="btn btn-primary" 
+                                data-id="${contrato.id}"
+                                data-cliente='${JSON.stringify(contrato)}'>
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                            </div>
+                        </td>
+                </tr>
+                                `);
             });
         }
-    }   catch (error) {
-        alert("Hubo un error al cargar los datos de los contratos.");
+    } catch (error) {
+        alert("El cliente seleccionado no tiene contratos asociados.");
     } 
+}
+
+async function deleteContratos(button) {
+    let id = $(button).data("id");
+    let dni = $("#dni-dropdown").val(); 
+
+    if (confirm(`¿Seguro que deseas eliminar el contrato con id ${id}?`)) {
+        let fila = $(button).closest("tr"); // Encuentra la fila del botón presionado
+        
+        try {
+            const request = {
+                'idContrato':id,
+                'dni':dni,
+            };
+
+            // Llamar al servicio para eliminar de la base de datos
+            let result = await ContratosService.deleteContrato(request);
+
+            // Eliminar la fila de la tabla con animación
+            fila.fadeOut(300, function() { 
+                $(this).remove(); 
+            });
+            
+            alert(`Contrato con id ${id} eliminado correctamente.`);
+        } catch (error) {          
+            alert("No se pudo eliminar el cliente.");
+            console.error(error);
+        }
+    }
 }
 
 async function cargarDNIs() {
